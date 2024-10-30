@@ -1,0 +1,46 @@
+.btn:is(input[type="radio"]:checked) {
+  --tw-border-opacity: 1;
+  border-color: rgb(109, 0, 0);
+  --tw-bg-opacity: 1;
+  background-color: #510000;
+  --tw-text-opacity: 1;
+  color: white;
+}
+
+.btn:is(input[type="radio"]:checked):hover {
+  background-color: #510000;
+  border-color: rgb(109, 0, 0);
+}
+
+.slide-in-top {
+  -webkit-animation: slide-in-top 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  transform: translateY(0);
+  display: block;
+}
+
+@-webkit-keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

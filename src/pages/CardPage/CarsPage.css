@@ -1,0 +1,32 @@
+.embla {
+  position: relative;
+  overflow: hidden;
+  width: 100%; /* Set desired width */
+  max-width: 600px;
+  margin: auto;
+}
+
+.embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.embla__container {
+  display: flex;
+  flex-direction: row; /* Horizontal layout */
+  will-change: transform;
+}
+
+.embla__slide {
+  position: relative;
+  max-width: 4rem !important; /* Each slide takes full width of viewport */
+  flex: 0 0 100%; /* Prevents shrinkage */
+}
+
+.embla__slide {
+  width: 4rem;
+  height: auto;
+  display: block;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}

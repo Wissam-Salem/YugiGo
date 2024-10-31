@@ -17,11 +17,16 @@ export default function Home() {
   let [cards, setCards] = useState([]);
   let mobileMenuRef = useRef(null);
   useEffect(() => {
-    axios("https://db.ygoprodeck.com/api/v7/cardinfo.php").then((res) => {
-      console.log(res.data);
+    try {
+      axios("https://db.ygoprodeck.com/api/v7/cardinfo.php").then((res) => {
+        console.log(res.data);
+        setCards(res.data?.data);
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
       setIsLoading(false);
-      setCards(res.data?.data);
-    });
+    }
   }, []);
   let ShowMoreCards = () => {
     setVisibleCards((prevValue) => Math.min(prevValue + 40, cards.length));
@@ -194,16 +199,24 @@ export default function Home() {
             </li>
           </ul>
         </div>
-        {cards?.slice(0, visibleCards)?.map((card) => {
-          return (
-            <Card
-              key={card?.id}
-              cardId={card?.id}
-              cardDesc={card?.desc}
-              cardImg={card?.card_images[0]?.image_url}
-            />
-          );
-        })}
+        {isLoading ? (
+          <img
+            className="animate-ping size-12"
+            src="/assets/loading.png"
+            alt=""
+          />
+        ) : (
+          cards?.slice(0, visibleCards)?.map((card) => {
+            return (
+              <Card
+                key={card?.id}
+                cardId={card?.id}
+                cardDesc={card?.desc}
+                cardImg={card?.card_images[0]?.image_url}
+              />
+            );
+          })
+        )}
       </main>
       {visibleCards < cards?.length && (
         <footer className="w-full">

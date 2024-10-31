@@ -248,33 +248,7 @@ export default function SearchPage() {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 z-[100] !rounded-md !-left-28 w-52 p-2 shadow"
             >
-              <li className="text-gray-300">
-                <a>Yugi Muto</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Yami Yugi</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Joey Wheeler</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Tea Gardner</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Tristan Taylor</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Seto Kaiba</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Maximillion Pegasus</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Marik Ishtar</a>
-              </li>
-              <li className="text-gray-300">
-                <a>Yami Bakura</a>
-              </li>
+              <h1 className="text-gray-400">Coming Soon</h1>
             </ul>
           </div>
         </div>
@@ -495,7 +469,7 @@ export default function SearchPage() {
                 setIsLoading(true);
                 fetchSearch();
               }}
-              className="flex-grow rounded-r-lg h-10 text-sm bg-red-500 hover:bg-red-600 transition-all"
+              className="flex-grow rounded-r-lg h-10 text-sm bg-red-600 hover:bg-red-700 transition-all"
             >
               Search
             </button>

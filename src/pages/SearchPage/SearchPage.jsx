@@ -11,6 +11,7 @@ export default function SearchPage() {
   let url = useLocation();
   let mobileMenuRef = useRef(null);
   let [mobileMenuShown, setMobileMenuShown] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
   let [openedSelect, setOpenedSelect] = useState(null);
   let [options, setOptions] = useState({
     name: "",
@@ -23,7 +24,6 @@ export default function SearchPage() {
     "Aqua",
     "Beast",
     "Beast-Warrior",
-    "Creator-God",
     "Cyberse",
     "Dinosaur",
     "Divine-Beast",
@@ -92,10 +92,18 @@ export default function SearchPage() {
         }${options.race ? `&race=${options.race}` : ""}
         ${options.lvl ? `&level=${options.lvl}` : ""}
         ${options.name ? `&fname=${options.name}` : ""}`
-      ).then((res) => {
-        console.log(res?.data?.data);
-        setCards(res?.data?.data);
-      });
+      )
+        .then((res) => {
+          console.log(res?.data?.data);
+          setCards(res?.data?.data);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setCards([]);
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
     }
   };
   let theRace = url?.search.includes("race")
@@ -127,10 +135,10 @@ export default function SearchPage() {
           ?.slice(1)
       )?.replace("%20", " ")
     : undefined;
-  console.log(theType);
 
   useEffect(() => {
     if (url?.search !== undefined && url?.search !== "") {
+      setIsLoading(true);
       setOptions({
         ...options,
         type: theType,
@@ -143,6 +151,7 @@ export default function SearchPage() {
       ).then((res) => {
         console.log(res?.data?.data);
         setCards(res?.data?.data);
+        setIsLoading(false);
       });
       console.log(options);
     }
@@ -154,11 +163,7 @@ export default function SearchPage() {
       </Helmet>
       <header className="w-full flex justify-between items-center">
         <a className="flex justify-start items-center gap-2" href="/">
-          <img
-            className="size-20 max-sm:size-16"
-            src="/assets/yugigo.png"
-            alt=""
-          />
+          <img className="size-16" src="/assets/yugigo.png" alt="" />
           <h1 className="text-2xl max-sm:text-xl">YugiGo</h1>
         </a>
         <div className="flex justify-center items-center gap-3 max-md:hidden">
@@ -295,7 +300,11 @@ export default function SearchPage() {
           </button>
         </div>
       </header>
-      <main className="relative w-full flex justify-center items-start flex-wrap gap-2 py-5">
+      <main
+        className={`relative w-full ${
+          (cards?.length === 0 || isLoading) && "flex-grow"
+        } flex justify-center items-start flex-wrap gap-2 py-5`}
+      >
         <div
           ref={mobileMenuRef}
           className="absolute top-2 w-full h-fit z-[500] hidden rounded-t-sm rounded-b-md bg-base-100 md:!hidden"
@@ -482,24 +491,46 @@ export default function SearchPage() {
               placeholder="Enter Card's Name"
             />
             <button
-              onClick={() => fetchSearch()}
+              onClick={() => {
+                setIsLoading(true);
+                fetchSearch();
+              }}
               className="flex-grow rounded-r-lg h-10 text-sm bg-red-500 hover:bg-red-600 transition-all"
             >
               Search
             </button>
           </div>
         </div>
-        <div className="w-full flex-grow flex justify-center items-start flex-wrap pt-3 gap-1">
-          {cards?.map((card) => {
-            return (
-              <Card
-                key={card?.id}
-                cardId={card?.id}
-                cardImg={card?.card_images[0]?.image_url}
-              />
-            );
-          })}
-        </div>
+        {isLoading ? (
+          <div className="w-full flex-grow flex justify-center items-center">
+            <img
+              className="size-10 animate-ping"
+              src="/assets/loading.png"
+              alt=""
+            />
+          </div>
+        ) : cards?.length === 0 ? (
+          <div className="w-full h-full flex-grow flex justify-center items-center gap-2">
+            <img
+              className="size-8"
+              src="https://img.icons8.com/?size=100&id=70077&format=png&color=6b7280"
+              alt=""
+            />
+            <h1 className="text-gray-500">No matched cards</h1>
+          </div>
+        ) : (
+          <div className="w-full flex-grow flex justify-center items-start flex-wrap pt-3 gap-1">
+            {cards?.map((card) => {
+              return (
+                <Card
+                  key={card?.id}
+                  cardId={card?.id}
+                  cardImg={card?.card_images[0]?.image_url}
+                />
+              );
+            })}
+          </div>
+        )}
       </main>
     </div>
   );

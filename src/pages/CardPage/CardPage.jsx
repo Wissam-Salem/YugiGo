@@ -84,15 +84,23 @@ export default function CardPage() {
             >
               <FontAwesomeIcon size="sm" icon={faChevronLeft} />
             </button>
-            <h1 className="text-2xl text-right text-white font-bold">
-              {card?.cardName}
-            </h1>
+            {card?.cardName === "" || !card?.cardName ? (
+              <div className="w-[10rem] !rounded-md skeleton h-8"></div>
+            ) : (
+              <h1 className="text-2xl text-right text-white font-bold">
+                {card?.cardName}
+              </h1>
+            )}
           </header>
-          <img
-            className="w-[16rem] max-md:w-[14rem] h-fit"
-            src={card.cardImg}
-            alt={card.cardName}
-          />
+          {card?.cardImg === "" || !card?.cardImg ? (
+            <div className="w-[16rem] max-md:w-[14rem] h-[22rem] max-md:h-[20rem] skeleton !rounded-sm"></div>
+          ) : (
+            <img
+              className="w-[16rem] max-md:w-[14rem] h-fit"
+              src={card.cardImg}
+              alt={card.cardName}
+            />
+          )}
           {card?.cardPendDesc && (
             <div className="flex flex-col justify-center items-start gap-3 w-full max-md:mb-6">
               <h1 className="text-xl text-white font-semibold">
@@ -103,17 +111,44 @@ export default function CardPage() {
           )}
           <div className="flex flex-col justify-center items-start w-full max-md:hidden">
             <h1 className="text-xl text-white font-semibold mb-3">Card Sets</h1>
-            {card?.cardSets?.map((cardSet, i) => {
-              return (
-                <div
-                  key={i}
-                  className="flex justify-start items-center gap-2 px-2"
-                >
-                  <img className="size-10" src="/assets/deck.png" alt="" />
-                  <p>{cardSet?.set_name}</p>
+            {card?.cardSets?.length === 0 ? (
+              <div className="grid grid-cols-2 w-full h-full">
+                <div className="grid grid-rows-2 gap-y-3 w-full h-full">
+                  <div className="flex justify-start items-center gap-2 px-2 w-full">
+                    <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                    <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                  </div>
+                  <div className="flex justify-start items-center gap-2 px-2 w-full">
+                    <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                    <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                  </div>
                 </div>
-              );
-            })}
+                <div className="grid grid-rows-2 gap-y-3 w-full h-full">
+                  <div className="flex justify-start items-center gap-2 px-2">
+                    <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                    <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                  </div>
+                  <div className="flex justify-start items-center gap-2 px-2">
+                    <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                    <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 grid-rows-2 gap-y-1">
+                {card?.cardSets?.map((cardSet, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="flex justify-start items-center gap-2 px-2"
+                    >
+                      <img className="size-10" src="/assets/deck.png" alt="" />
+                      <p>{cardSet?.set_name}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex flex-col justify-start items-center gap-5 w-1/2 max-md:w-full">
@@ -127,96 +162,152 @@ export default function CardPage() {
             >
               <FontAwesomeIcon size="sm" icon={faChevronLeft} />
             </button>
-            <h1 className="text-2xl font-bold text-white text-right">
-              {card?.cardName}
-            </h1>
+            {card?.cardName === "" || !card?.cardName ? (
+              <div className="w-[15rem] !rounded-md skeleton h-8"></div>
+            ) : (
+              <h1 className="text-2xl text-right text-white font-bold">
+                {card?.cardName}
+              </h1>
+            )}
           </header>
           <main className="flex flex-col justify-start items-start w-full gap-6">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-full">
               <h1 className="text-xl text-white font-semibold">Descreption</h1>
-              <i className="font-[Poppins] px-2">
-                <p>{card?.cardDesc}</p>
-              </i>
+              {card?.cardDesc === "" || !card?.cardDesc ? (
+                <>
+                  <div className="w-full h-8 skeleton !rounded-md"></div>
+                  <div className="w-full h-8 skeleton !rounded-md"></div>
+                  <div className="w-full h-8 skeleton !rounded-md"></div>
+                </>
+              ) : (
+                <i className="font-[Poppins] px-2">
+                  <p>{card?.cardDesc}</p>
+                </i>
+              )}
             </div>
             <div className="flex flex-col gap-4">
               <h1 className="text-xl text-white font-semibold">Card Info</h1>
               <ul className="flex flex-col justify-center items-start gap-2">
-                {card?.cardAtk !== undefined && (
-                  <li className="flex justify-start items-center gap-2 text-right w-full px-2">
-                    <img
-                      className="size-6"
-                      src="https://img.icons8.com/?size=100&id=16672&format=png&color=000000"
-                      alt=""
-                    />
-                    <h1 className="text-white">Attack:</h1> {card?.cardAtk}
-                  </li>
+                {card?.cardAtr === "" || !card?.cardAtr ? (
+                  <>
+                    <div className="flex justify-start items-center gap-2">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
+                    <div className="flex justify-start items-center gap-2">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
+                    <div className="flex justify-start items-center gap-2">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {card?.cardAtk !== undefined && (
+                      <li className="flex justify-start items-center gap-2 text-right w-full px-2">
+                        <img
+                          className="size-6"
+                          src="https://img.icons8.com/?size=100&id=16672&format=png&color=000000"
+                          alt=""
+                        />
+                        <h1 className="text-white">Attack:</h1> {card?.cardAtk}
+                      </li>
+                    )}
+                    {card?.cardDef !== undefined && (
+                      <li className="flex justify-start items-center gap-2 text-right w-full px-2">
+                        <img
+                          className="size-6"
+                          src="https://img.icons8.com/?size=100&id=m5SHj3biqpiR&format=png&color=000000"
+                          alt=""
+                        />
+                        <h1 className="text-white">Defense:</h1> {card?.cardDef}
+                      </li>
+                    )}
+                    {card?.cardLvl !== undefined && (
+                      <li className="flex justify-start items-center gap-2 text-right w-full px-2">
+                        <img
+                          className="size-6"
+                          src="https://img.icons8.com/?size=100&id=8ggStxqyboK5&format=png&color=000000"
+                          alt=""
+                        />
+                        <h1 className="text-white">Level:</h1> {card?.cardLvl}
+                      </li>
+                    )}
+                    <li className="flex justify-start items-center gap-2 text-right w-full px-2">
+                      <img
+                        className="size-6"
+                        src="https://img.icons8.com/?size=100&id=mMPdSvgRE4Rl&format=png&color=000000"
+                        alt=""
+                      />
+                      <h1 className="text-white">Attribute:</h1> {card?.cardAtr}{" "}
+                      <img
+                        className="size-5"
+                        src={`/assets/${card?.cardAtr?.toLowerCase()}.png`}
+                        alt=""
+                      />
+                    </li>
+                    <li className="flex justify-start items-center gap-2 text-right w-full px-2">
+                      <img
+                        className="size-6 object-contain"
+                        src="/assets/types.jpg"
+                        alt=""
+                      />
+                      <h1 className="text-white">Types:</h1>{" "}
+                      {typeof card?.cardTypes === "object"
+                        ? card?.cardTypes?.map((type, index) => {
+                            if (index === card?.cardTypes?.length - 1) {
+                              return <span key={index}>{type}</span>;
+                            }
+                            return <span key={index}>{type} | </span>;
+                          })
+                        : card?.cardTypes}
+                    </li>
+                  </>
                 )}
-                {card?.cardDef !== undefined && (
-                  <li className="flex justify-start items-center gap-2 text-right w-full px-2">
-                    <img
-                      className="size-6"
-                      src="https://img.icons8.com/?size=100&id=m5SHj3biqpiR&format=png&color=000000"
-                      alt=""
-                    />
-                    <h1 className="text-white">Defense:</h1> {card?.cardDef}
-                  </li>
-                )}
-                {card?.cardLvl !== undefined && (
-                  <li className="flex justify-start items-center gap-2 text-right w-full px-2">
-                    <img
-                      className="size-6"
-                      src="https://img.icons8.com/?size=100&id=8ggStxqyboK5&format=png&color=000000"
-                      alt=""
-                    />
-                    <h1 className="text-white">Level:</h1> {card?.cardLvl}
-                  </li>
-                )}
-                <li className="flex justify-start items-center gap-2 text-right w-full px-2">
-                  <img
-                    className="size-6"
-                    src="https://img.icons8.com/?size=100&id=mMPdSvgRE4Rl&format=png&color=000000"
-                    alt=""
-                  />
-                  <h1 className="text-white">Attribute:</h1> {card?.cardAtr}{" "}
-                  <img
-                    className="size-5"
-                    src={`/assets/${card?.cardAtr?.toLowerCase()}.png`}
-                    alt=""
-                  />
-                </li>
-                <li className="flex justify-start items-center gap-2 text-right w-full px-2">
-                  <img
-                    className="size-6 object-contain"
-                    src="/assets/types.jpg"
-                    alt=""
-                  />
-                  <h1 className="text-white">Types:</h1>{" "}
-                  {typeof card?.cardTypes === "object"
-                    ? card?.cardTypes?.map((type, index) => {
-                        if (index === card?.cardTypes?.length - 1) {
-                          return <span key={index}>{type}</span>;
-                        }
-                        return <span key={index}>{type} | </span>;
-                      })
-                    : card?.cardTypes}
-                </li>
               </ul>
             </div>
             <div className="flex-col justify-center items-start w-full hidden max-md:flex">
               <h1 className="text-xl text-white font-semibold mb-3">
                 Card Sets
               </h1>
-              {card?.cardSets?.map((cardSet, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="flex justify-start items-center gap-2 px-2"
-                  >
-                    <img className="size-10" src="/assets/deck.png" alt="" />
-                    <p>{cardSet?.set_name}</p>
+              {card?.cardSets?.length === 0 ? (
+                <div className="grid grid-cols-2 gap-x-3 w-full h-full">
+                  <div className="grid grid-rows-2 gap-y-3 w-full h-full">
+                    <div className="flex justify-start items-center gap-2 px-2 w-full">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
+                    <div className="flex justify-start items-center gap-2 px-2 w-full">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
                   </div>
-                );
-              })}
+                  <div className="grid grid-rows-2 gap-y-3 w-full h-full">
+                    <div className="flex justify-start items-center gap-2 px-2">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
+                    <div className="flex justify-start items-center gap-2 px-2">
+                      <div className="w-[4rem] h-6 skeleton !rounded-md"></div>
+                      <div className="w-[10rem] h-6 skeleton !rounded-md"></div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                card?.cardSets?.map((cardSet, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="flex justify-start items-center gap-2 px-2"
+                    >
+                      <img className="size-10" src="/assets/deck.png" alt="" />
+                      <p>{cardSet?.set_name}</p>
+                    </div>
+                  );
+                })
+              )}
             </div>
             <div className="flex flex-col justify-start items-center gap-4 w-full">
               <h1 className="text-xl text-left text-white w-full font-semibold">

@@ -2,12 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import Card from "../../components/Card/Card";
 import "./Home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronCircleDown,
+  faChevronCircleUp,
+  faChevronUp,
+  faSortDown,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { FixedSizeList as List } from "react-window";
 
 export default function Home() {
-  let [page, setPage] = useState(0);
+  let [visibleCards, setVisibleCards] = useState(40);
   let [mobileMenuShown, setMobileMenuShown] = useState(false);
   let [isLoading, setIsLoading] = useState(true);
   let [cards, setCards] = useState([]);
@@ -19,15 +23,14 @@ export default function Home() {
       setCards(res.data?.data);
     });
   }, []);
+  let ShowMoreCards = () => {
+    setVisibleCards((prevValue) => Math.min(prevValue + 40, cards.length));
+  };
   return (
     <div className="w-full min-h-dvh flex flex-col justify-between items-center p-3">
       <header className="w-full flex justify-between items-center">
         <a className="flex justify-start items-center gap-2" href="/">
-          <img
-            className="size-20 max-sm:size-16"
-            src="/assets/yugigo.png"
-            alt=""
-          />
+          <img className="size-16" src="/assets/yugigo.png" alt="" />
           <h1 className="text-2xl max-sm:text-xl">YugiGo</h1>
         </a>
         <div className="flex justify-center items-center gap-3 max-md:hidden">
@@ -191,7 +194,7 @@ export default function Home() {
             </li>
           </ul>
         </div>
-        {cards?.slice(page * 40, (page + 1) * 40)?.map((card) => {
+        {cards?.slice(0, visibleCards)?.map((card) => {
           return (
             <Card
               key={card?.id}
@@ -202,31 +205,21 @@ export default function Home() {
           );
         })}
       </main>
-      <footer className="w-full">
-        <div className="join !w-full flex justify-center">
-          <button
-            onClick={() => {
-              if (page > 0) {
-                setPage(page - 1);
-              }
-            }}
-            className="join-item btn w-[25%] bg-red-800 hover:bg-red-900"
-          >
-            «
-          </button>
-          <button className="join-item btn w-[50%] bg-red-800 hover:bg-red-900">
-            Page {page + 1} / {cards?.length}
-          </button>
-          <button
-            onClick={() => {
-              setPage(page + 1);
-            }}
-            className="join-item btn w-[25%] bg-red-800 hover:bg-red-900"
-          >
-            »
-          </button>
-        </div>
-      </footer>
+      {visibleCards < cards?.length && (
+        <footer className="w-full">
+          <div className="join !w-full flex justify-center">
+            <button
+              onClick={() => {
+                ShowMoreCards();
+              }}
+              className="p-2 bg-red-600 hover:bg-red-700 w-[20rem] rounded-md active:scale-95 transition-all text-white text-center flex justify-center items-center gap-2"
+            >
+              <p>Load more</p>
+              <FontAwesomeIcon icon={faChevronCircleDown} color="#eee" />
+            </button>
+          </div>
+        </footer>
+      )}
     </div>
   );
 }
